@@ -13,6 +13,12 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    'no-console': 'off'
+    'no-console': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement'
+    ]
   }
 };
