@@ -1,17 +1,20 @@
 import React from 'react';
 
-import { Grid, TextField, Button } from '@material-ui/core';
 import {
   ModalBox,
   SModal,
   CabinetBoxHeader,
-  ContentBox,
 } from 'components/Cabinet/Cabinet.sc';
+import ProfileForm from 'components/Cabinet/ProfileForm';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setModal, setUserData, handleChangeUser } from 'store/cabinetSlice';
+import { setModal, setUserData } from 'store/cabinetSlice';
 import { updateData } from 'store/userSlice';
+
 import { useMountEffect } from 'hooks/useMountEffect';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 export default function CabinetModal() {
   const { isModalProfile } = useSelector((state) => state.cabinet);
@@ -32,17 +35,8 @@ export default function CabinetModal() {
     );
   });
 
-  const changeValue = ({ target: { name, value } }) => {
-    dispatch(handleChangeUser({ name, value }));
-  };
-
   const closeModalProfile = () => {
     dispatch(setModal({ name: 'isModalProfile', isOpen: false }));
-  };
-
-  const saveChanges = () => {
-    dispatch(updateData());
-    closeModalProfile();
   };
 
   return (
@@ -51,51 +45,38 @@ export default function CabinetModal() {
       onClose={closeModalProfile}
       aria-labelledby='simple-modal-title'>
       <SModal>
-        <CabinetBoxHeader>Yeader</CabinetBoxHeader>
-        <Grid container>
-          <ContentBox item sm={6} xs={12}>
-            <TextField
-              id='firstName'
-              name='firstName'
-              value={firstName}
-              onChange={changeValue}
-              label='Имя'
-            />
-          </ContentBox>
-          <ContentBox item sm={6} xs={12}>
-            <TextField
-              id='lastName'
-              name='lastName'
-              value={lastName}
-              onChange={changeValue}
-              label='Фамилия'
-            />
-          </ContentBox>
-          <ContentBox item sm={6} xs={12}>
-            <TextField
-              id='email'
-              name='email'
-              value={email}
-              onChange={changeValue}
-              label='Почта'
-            />
-          </ContentBox>
-          <ContentBox item sm={6} xs={12}>
-            <TextField
-              id='phone'
-              name='phone'
-              value={phone}
-              onChange={changeValue}
-              label='Телефон'
-            />
-          </ContentBox>
-          <Grid item sm={12} container justify='center'>
-            <Button color='primary' onClick={saveChanges}>Save</Button>
-            <Button color='primary' onClick={closeModalProfile}>
-              Cancel
-            </Button>
-          </Grid>
-        </Grid>
+        <CabinetBoxHeader>Мои данные</CabinetBoxHeader>
+        <Formik
+          initialValues={{ firstName, lastName, email, phone }}
+          validationSchema={Yup.object({
+            firstName: Yup.string()
+              .trim()
+              .min(2, 'Минимум 2 символа')
+              .required('Обязательное поле'),
+            lastName: Yup.string()
+              .trim()
+              .min(2, 'Минимум 2 символа')
+              .required('Обязательное поле'),
+            email: Yup.string()
+              .trim()
+              .email('Некорректные почтовые данные')
+              .required('Обязательное поле'),
+            phone: Yup.string()
+              .trim()
+              .matches(
+                /^([\\+]7|8?)?[-\s\\.]?9[0-9]{2}[-\s\\.]?[0-9]{7}$/gim,
+                'Некорректный номер телефона'
+              )
+              .required('Обязательное поле'),
+          })}
+          onSubmit={(values, actions) => {
+            dispatch(updateData(values));
+            closeModalProfile();
+          }}>
+          {(props) => (
+            <ProfileForm closeModalProfile={closeModalProfile} {...props} />
+          )}
+        </Formik>
       </SModal>
     </ModalBox>
   );
