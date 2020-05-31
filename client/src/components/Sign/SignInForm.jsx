@@ -7,36 +7,44 @@ import {
   Form,
   STextField,
   UnderFormText,
-  SLink
+  SLink,
+  ErrorBox,
 } from './Sign.sc';
 import { Button } from '@material-ui/core';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUser, resetError } from 'store/userSlice';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useMountEffect } from 'hooks/useMountEffect';
 
 export default function SignForm() {
+  const { error: { isError, message } } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: '',
-      pass: ''
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
         .trim()
         .email('Invalid email address')
         .required('Required'),
-      pass: Yup.string()
+      password: Yup.string()
         .trim()
         .min(6, 'Min 6 symols')
         .max(20, 'Must be 20 characters or less')
-        .required('Required')
+        .required('Required'),
     }),
-    onSubmit(values) {
-      console.log(values);
+    async onSubmit(values) {
+      dispatch(fetchUser({ path: '/login', values }));
     }
   });
 
-  console.log(formik.values);
+  useMountEffect(() => () => dispatch(resetError()));
 
   return (
     <SignBox>
@@ -55,18 +63,21 @@ export default function SignForm() {
             }
           />
           <STextField
-            name='pass'
+            name='password'
             label='Пароль'
             type='password'
-            {...formik.getFieldProps('pass')}
-            error={Boolean(formik.touched.pass && formik.errors.pass)}
+            {...formik.getFieldProps('password')}
+            error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={
-              formik.errors.pass &&
-              formik.touched.pass &&
-              String(formik.errors.pass)
+              formik.errors.password &&
+              formik.touched.password &&
+              String(formik.errors.password)
             }
           />
           <Button type='submit'>Войти</Button>
+          {isError && (
+            <ErrorBox>{message}</ErrorBox>
+          )}
         </Form>
       </FormBox>
       <UnderFormText>

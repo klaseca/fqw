@@ -7,73 +7,96 @@ import {
   Form,
   STextField,
   UnderFormText,
-  SLink
+  SLink,
+  ErrorBox,
 } from './Sign.sc';
 import { Button } from '@material-ui/core';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUser, resetError } from 'store/userSlice';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useMountEffect } from 'hooks/useMountEffect';
 
 export default function SignForm() {
+  const {
+    error: { isError, message },
+  } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useMountEffect(() => () => dispatch(resetError()));
+
+  const phoneRegExp = /^([\\+]7|8?)?[-\s\\.]?9[0-9]{2}[-\s\\.]?[0-9]{7}$/gim;
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
       email: '',
-      pass: '',
-      passConfirm: ''
+      phone: '',
+      password: '',
+      passConfirm: '',
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
         .trim()
         .min(2, 'Min 2')
-        .required('Required'),
+        .required('Обязательное поле'),
       lastName: Yup.string()
         .trim()
         .min(2, 'Min 2')
-        .required('Required'),
+        .required('Обязательное поле'),
       email: Yup.string()
         .trim()
         .email('Invalid email address')
-        .required('Required'),
-      pass: Yup.string()
+        .required('Обязательное поле'),
+      phone: Yup.string()
+        .trim()
+        .matches(phoneRegExp, 'Phone is not valid')
+        .required('Обязательное поле'),
+      password: Yup.string()
         .trim()
         .min(6, 'Min 6 symols')
         .max(20, 'Must be 20 characters or less')
-        .required('Required'),
+        .required('Обязательное поле'),
       passConfirm: Yup.string()
         .trim()
         .min(6, 'Min 6 symols')
         .max(20, 'Must be 20 characters or less')
-        .required('Required')
-        .oneOf([Yup.ref('pass')], 'Password does not match')
+        .required('Обязательное поле')
+        .oneOf([Yup.ref('password')], 'Password does not match'),
     }),
-    onSubmit(values) {
-      console.log(values);
-    }
+    async onSubmit(values) {
+      dispatch(fetchUser({ path: '/register', values }));
+    },
   });
 
   const otherInfo = {
     firstName: {
       name: 'Имя',
-      type: 'text'
+      type: 'text',
     },
     lastName: {
       name: 'Фамилия',
-      type: 'text'
+      type: 'text',
     },
     email: {
       name: 'Почта',
-      type: 'email'
+      type: 'email',
     },
-    pass: {
+    phone: {
+      name: 'Телефон',
+      type: 'text',
+    },
+    password: {
       name: 'Пароль',
-      type: 'password'
+      type: 'password',
     },
     passConfirm: {
       name: 'Повторите пароль',
-      type: 'password'
-    }
+      type: 'password',
+    },
   };
 
   const keys = Object.keys(formik.values);
@@ -83,7 +106,7 @@ export default function SignForm() {
       <FormBox>
         <FormTitle>Регистрация</FormTitle>
         <Form onSubmit={formik.handleSubmit}>
-          {keys.map(key => (
+          {keys.map((key) => (
             <STextField
               key={key}
               name={key}
@@ -99,6 +122,7 @@ export default function SignForm() {
             />
           ))}
           <Button type='submit'>Зарегистрироваться</Button>
+          {isError && <ErrorBox>{message}</ErrorBox>}
         </Form>
       </FormBox>
       <UnderFormText>
