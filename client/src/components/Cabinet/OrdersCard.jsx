@@ -6,6 +6,7 @@ import {
   CabinetBoxHeader,
   UnderHeaderLine,
 } from 'components/Cabinet/Cabinet.sc';
+import { STooltip } from 'components/Common/StyledComponents';
 
 import OrdersBox from 'components/Cabinet/OrdersBox';
 import NoData from 'components/Cabinet/NoData';
@@ -30,9 +31,11 @@ export default function OrdersCard() {
       ) : (
         <NoData>Нет заказов</NoData>
       )}
-      <CircleButton onClick={() => history.push('/myorders')}>
-        <List />
-      </CircleButton>
+      <STooltip title='Все заказы' placement='left'>
+        <CircleButton onClick={() => history.push('/myorders')}>
+          <List />
+        </CircleButton>
+      </STooltip>
     </CabinetBox>
   );
 }

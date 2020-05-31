@@ -11,6 +11,7 @@ import {
   ContentValue,
 } from 'components/Cabinet/Cabinet.sc';
 import Edit from 'assets/Icons/Edit';
+import { STooltip } from 'components/Common/StyledComponents';
 
 import { Grid } from '@material-ui/core';
 
@@ -26,7 +27,7 @@ export default function ProfileCard() {
   return (
     <CabinetBox item lg={10} xs={12}>
       <CabinetBoxHeader>
-        Profile
+        Профиль
         <UnderHeaderLine />
       </CabinetBoxHeader>
       <Grid container>
@@ -61,12 +62,14 @@ export default function ProfileCard() {
           </ContentItem>
         </ContentBox>
       </Grid>
-      <CircleButton
-        onClick={() =>
-          dispatch(setModal({ name: 'isModalProfile', isOpen: true }))
-        }>
-        <Edit />
-      </CircleButton>
+      <STooltip title='Редактировать информацию' placement='left'>
+        <CircleButton
+          onClick={() =>
+            dispatch(setModal({ name: 'isModalProfile', isOpen: true }))
+          }>
+          <Edit />
+        </CircleButton>
+      </STooltip>
     </CabinetBox>
   );
 }

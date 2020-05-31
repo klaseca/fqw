@@ -9,6 +9,7 @@ import {
 import CarsBox from 'components/Cabinet/CarsBox';
 import NoData from 'components/Cabinet/NoData';
 import Add from 'assets/Icons/Add';
+import { STooltip } from 'components/Common/StyledComponents';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setModal } from 'store/cabinetSlice';
@@ -16,7 +17,7 @@ import { setModal } from 'store/cabinetSlice';
 export default function CarsCard() {
   const { cars, carTitles } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  
+
   const openModal = () => {
     dispatch(setModal({ name: 'isModalCars', isOpen: true }));
   };
@@ -24,7 +25,7 @@ export default function CarsCard() {
   return (
     <CabinetBox item lg={10} xs={12}>
       <CabinetBoxHeader>
-        Cars
+        Автомобили
         <UnderHeaderLine />
       </CabinetBoxHeader>
       {cars.length ? (
@@ -32,7 +33,11 @@ export default function CarsCard() {
       ) : (
         <NoData>Нет машин</NoData>
       )}
-      <CircleButton onClick={openModal}><Add /></CircleButton>
+      <STooltip title='Добавить автомобиль' placement='left'>
+        <CircleButton onClick={openModal}>
+          <Add />
+        </CircleButton>
+      </STooltip>
     </CabinetBox>
   );
 }
