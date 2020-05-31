@@ -20,7 +20,7 @@ const FormBox = styled('div')({
   alignItems: 'center',
   padding: '20px',
   borderRadius: '5px',
-  backgroundColor: '#f0f5f9',
+  backgroundColor: '#f5f5f5',
   boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)'
 });
 
@@ -69,6 +69,14 @@ const SLink = styled(Link)({
   color: '#1e2022'
 });
 
+const ErrorBox = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  fontSize: '1.5em',
+  padding: '10px',
+  color: '#e00000'
+});
+
 export {
   Article,
   SignBox,
@@ -77,5 +85,6 @@ export {
   Form,
   STextField,
   UnderFormText,
-  SLink
+  SLink,
+  ErrorBox,
 };
