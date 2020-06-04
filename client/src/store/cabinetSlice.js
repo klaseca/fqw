@@ -28,6 +28,31 @@ export const getOrder = createAsyncThunk(
   }
 );
 
+export const getReportData = createAsyncThunk(
+  'cabinet/getReportData',
+  async (reportData, { getState }) => {
+    try {
+      const {
+        user: { token },
+      } = getState();
+
+      const { data } = await axios.post(
+        '/profile/createreport',
+        { ...reportData },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const cabinetSlice = createSlice({
   name: 'cabinet',
   initialState: {
@@ -57,6 +82,11 @@ const cabinetSlice = createSlice({
       price: '',
       orderServices: [],
     },
+    reportInfo: {
+      isFulfield: false,
+      message: '',
+      reportData: {},
+    },
   },
   reducers: {
     setModal(state, { payload }) {
@@ -77,7 +107,7 @@ const cabinetSlice = createSlice({
     setCarData(state, { payload }) {
       state.car = { ...payload };
     },
-    resetCarData(state, action) {
+    resetCarData(state) {
       state.car.brand = '';
       state.car.model = '';
       state.car.stateNumber = '';
@@ -86,10 +116,32 @@ const cabinetSlice = createSlice({
     handleChangeCar(state, { payload }) {
       state.car[payload.name] = payload.value;
     },
+    resetReportInfo(state) {
+      state.reportInfo = {
+        ...state.reportInfo,
+        isFulfield: false,
+        message: '',
+      }
+    }
   },
   extraReducers: {
     [getOrder.fulfilled]: (state, { payload }) => {
       state.order = payload;
+    },
+    [getReportData.fulfilled]: (state, { payload }) => {
+      if (payload.message) {
+        state.reportInfo = {
+          ...state.reportInfo,
+          isFulfield: true,
+          message: payload.message,
+        };
+      } else {
+        state.reportInfo = {
+          ...state.reportInfo,
+          isFulfield: true,
+          reportData: payload.reportData,
+        };
+      }
     },
   },
 });
@@ -103,6 +155,7 @@ export const {
   setOrderId,
   setCarData,
   resetCarData,
+  resetReportInfo,
 } = cabinetSlice.actions;
 
 export default cabinetSlice.reducer;
