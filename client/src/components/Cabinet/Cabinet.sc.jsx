@@ -28,6 +28,21 @@ const CircleButton = styled('div')({
   minWidth: '50px',
 });
 
+const Square = styled('div')({
+  position: 'absolute',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  bottom: '-1vmin',
+  right: '-1vmin',
+  borderRadius: '10px',
+  backgroundColor: '#52616b',
+  width: '6vmin',
+  height: '6vmin',
+  minHeight: '50px',
+  minWidth: '50px',
+});
+
 const CabinetBoxHeader = styled('div')({
   display: 'flex',
   flexDirection: 'column',
@@ -109,9 +124,21 @@ const SModal = styled('div')({
   outline: 0,
 });
 
+const WarningBox = styled(Grid)({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  padding: '15px',
+  marginTop: '5px',
+  borderRadius: '5px',
+  fontSize: '2em',
+  backgroundColor: '#ffce2e87',
+});
+
 export {
   CabinetBox,
   CircleButton,
+  Square,
   CabinetBoxHeader,
   UnderHeaderLine,
   ContentBox,
@@ -123,4 +150,5 @@ export {
   BtnBox,
   ModalBox,
   SModal,
+  WarningBox,
 };
