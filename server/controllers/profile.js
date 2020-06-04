@@ -3,9 +3,54 @@ const carsController = require('./cars');
 const ordersController = require('./orders');
 const usersController = require('./users');
 const servicesController = require('./services');
-const { OrderServices } = require('./../models');
+const { OrderServices, Op } = require('./../models');
 
 module.exports = {
+  async createReport(ctx) {
+    const { userId } = ctx.req.user;
+    const { startDate, endDate, carId } = ctx.request.body;
+
+    const options = {
+      userId,
+      carId,
+      dateStart: {
+        [Op.between]: [startDate, endDate]
+      },
+      statusId: 4
+    };
+    const orders = await ordersController.getOrders(options);
+
+    if (orders.length) {
+      const reportData = {
+        startDate,
+        endDate,
+        carsCount: carId.length,
+        cars: [...new Set(orders.map(({ car }) => car))],
+        price: orders.reduce((total, { price }) => total + price, 0),
+        ordersCount: orders.length,
+        servicesCount: orders.length,
+        services: [
+          ...new Set(orders.map(({ orderServices }) => orderServices[0].title))
+        ],
+        tosCount: orders.reduce(
+          (total, { orderServices }) =>
+            total + orderServices[0].typeOfService.length,
+          0
+        ),
+        tos: [
+          ...new Set(
+            orders.flatMap(
+              ({ orderServices }) => orderServices[0].typeOfService
+            )
+          )
+        ]
+      };
+
+      ctx.body = { reportData, message: '' };
+    } else {
+      ctx.body = { reportData: {}, message: 'Не найдено информации' };
+    }
+  },
   async checkToken(ctx) {
     const { user } = ctx.req;
 
