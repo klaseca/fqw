@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 
 const sequelize = new Sequelize('gqw', 'postgres', 'klaseca2121', {
   host: 'localhost',
@@ -25,7 +25,8 @@ Object.values(models)
 
 const db = {
   ...models,
-  sequelize
+  sequelize,
+  Op
 };
 
 module.exports = db;
