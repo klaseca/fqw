@@ -11,6 +11,7 @@ import { Grid } from '@material-ui/core';
 import { useMountEffect } from 'hooks/useMountEffect';
 import { useDispatch } from 'react-redux';
 import { fetchWithToken } from 'store/userSlice';
+import ReportCard from 'components/Cabinet/ReportCard';
 
 export default function Cabinet() {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function Cabinet() {
           <CarsCard />
 
           <OrdersCard />
+
+          <ReportCard />
 
           <CabinetModal />
         </Grid>
