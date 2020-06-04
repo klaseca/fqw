@@ -52,13 +52,23 @@ export default function CarsModal() {
         <Formik
           initialValues={{ brand, model, stateNumber, yearOfIssue }}
           validationSchema={Yup.object({
-            brand: Yup.string().trim().required('Обязательное поле'),
-            model: Yup.string().trim().required('Обязательное поле'),
+            brand: Yup.string()
+              .trim()
+              .min(2, 'Поле должно содержать минимум 2 символова')
+              .required('Обязательное поле'),
+            model: Yup.string()
+              .trim()
+              .min(2, 'Поле должно содержать минимум 2 символова')
+              .required('Обязательное поле'),
             stateNumber: Yup.string()
               .trim()
-              .matches(/^[а-яА-ЯёЁ]{1}[0-9]{3}[а-яА-ЯёЁ]{2}$/gim, 'Пример номера \'а123бв\'')
+              .matches(
+                /^[а-яА-ЯёЁ]{1}[0-9]{3}[а-яА-ЯёЁ]{2}$/gim,
+                "Пример номера 'а123бв'"
+              )
               .required('Обязательное поле'),
             yearOfIssue: Yup.number()
+              .typeError('Только цифры')
               .min(1800, 'Введите корректный год')
               .max(3000, 'Введите корректный год')
               .required('Обязательное поле'),
@@ -69,7 +79,7 @@ export default function CarsModal() {
             } else {
               dispatch(addCar(values));
             }
-        
+
             closeModalCar();
           }}>
           {(props) => (

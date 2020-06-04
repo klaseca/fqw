@@ -31,13 +31,13 @@ export default function SignForm() {
     validationSchema: Yup.object({
       email: Yup.string()
         .trim()
-        .email('Invalid email address')
-        .required('Required'),
+        .email('Некорректная почта')
+        .required('Обязательное поле'),
       password: Yup.string()
         .trim()
-        .min(6, 'Min 6 symols')
-        .max(20, 'Must be 20 characters or less')
-        .required('Required'),
+        .min(6, 'Пароль должен содержать более 6 символов')
+        .max(20, 'Пароль должен содержать менее 20 символов')
+        .required('Обязательное поле'),
     }),
     async onSubmit(values) {
       dispatch(fetchUser({ path: '/login', values }));

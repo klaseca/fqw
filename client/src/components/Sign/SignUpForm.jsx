@@ -41,31 +41,29 @@ export default function SignForm() {
     validationSchema: Yup.object({
       firstName: Yup.string()
         .trim()
-        .min(2, 'Min 2')
+        .min(2, 'Поле должно содержать минимум 2 символова')
         .required('Обязательное поле'),
       lastName: Yup.string()
         .trim()
-        .min(2, 'Min 2')
+        .min(2, 'Поле должно содержать минимум 2 символова')
         .required('Обязательное поле'),
       email: Yup.string()
         .trim()
-        .email('Invalid email address')
+        .email('Некорректная почта')
         .required('Обязательное поле'),
       phone: Yup.string()
         .trim()
-        .matches(phoneRegExp, 'Phone is not valid')
+        .matches(phoneRegExp, 'Некорректный номер телефона')
         .required('Обязательное поле'),
       password: Yup.string()
         .trim()
-        .min(6, 'Min 6 symols')
-        .max(20, 'Must be 20 characters or less')
+        .min(6, 'Пароль должен содержать более 6 символов')
+        .max(20, 'Пароль должен содержать менее 20 символов')
         .required('Обязательное поле'),
       passConfirm: Yup.string()
         .trim()
-        .min(6, 'Min 6 symols')
-        .max(20, 'Must be 20 characters or less')
         .required('Обязательное поле')
-        .oneOf([Yup.ref('password')], 'Password does not match'),
+        .oneOf([Yup.ref('password')], 'Пароли не совпадают'),
     }),
     async onSubmit(values) {
       dispatch(fetchUser({ path: '/register', values }));
