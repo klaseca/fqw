@@ -24,4 +24,6 @@ router.post('/profile/addcar', withAuth, profile.addCar);
 
 router.post('/profile/getorder', withAuth, profile.getOrder);
 
+router.post('/profile/createreport', withAuth, profile.createReport);
+
 module.exports = router;
