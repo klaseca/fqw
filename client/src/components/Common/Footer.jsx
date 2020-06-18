@@ -20,6 +20,9 @@ const Phone = styled('div')({
   display: 'flex',
   color: '#fff',
   fontSize: '2em',
+  '@media (max-width: 768px)': {
+    fontSize: '1.5em',
+  },
 });
 
 export default function Footer() {

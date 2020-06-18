@@ -26,7 +26,7 @@ export default function SelectDateAndCar() {
 
   return (
     <Grid item container>
-      <ContentBox item xs={6}>
+      <ContentBox item xs={12} md={5}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <Grid container justify='space-around'>
             <KeyboardDatePicker
@@ -49,7 +49,7 @@ export default function SelectDateAndCar() {
         </MuiPickersUtilsProvider>
       </ContentBox>
 
-      <ContentBox item xs={6}>
+      <ContentBox item xs={12} md={5}>
         <FormControl>
           <InputLabel id={`car-label`}>Выберите машину</InputLabel>
           <Select

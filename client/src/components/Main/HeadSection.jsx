@@ -23,12 +23,22 @@ const Box = styled('div')({
 const Title = styled('h1')({
   color: 'white',
   fontSize: '15em',
-  margin: '0'
+  margin: '0',
+  '@media (max-width: 768px)': {
+    fontSize: '8em',
+  },
+  '@media (max-width: 320px)': {
+    fontSize: '5em',
+  },
 });
 
 const Text = styled('div')({
   color: 'white',
-  fontSize: '5em'
+  fontSize: '5em',
+  textAlign: 'center',
+  '@media (max-width: 768px)': {
+    fontSize: '3em',
+  },
 });
 
 export default function HeadSection() {

@@ -24,7 +24,7 @@ export default function SelectBox() {
     <>
       {orderItems.map((item) => (
         <Grid item container key={item.id}>
-          <ContentBox item xs={5}>
+          <ContentBox item xs={12} md={5}>
             <FormControl>
               <InputLabel id={`${item.id}-label`}>Услуга</InputLabel>
               <Select
@@ -49,7 +49,7 @@ export default function SelectBox() {
             </FormControl>
           </ContentBox>
 
-          <ContentBox item xs={5}>
+          <ContentBox item xs={12} md={5}>
             <FormControl>
               <InputLabel id={`${item.id}-label2`}>Вид услуги</InputLabel>
               <Select
@@ -78,7 +78,7 @@ export default function SelectBox() {
             </FormControl>
           </ContentBox>
 
-          <ContentBox container alignItems='center' item xs={2}>
+          <ContentBox container alignItems='center' item xs={12} md={2}>
             <Button
               disabled={isDelete}
               onClick={() => dispatch(deleteOrderItem(item.id))}>

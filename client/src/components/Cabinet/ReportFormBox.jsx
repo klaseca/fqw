@@ -94,7 +94,7 @@ export default function ReportFormBox({ cars, orders }) {
       {(formik) => (
         <Form>
           <Grid container>
-            <ContentBox item xs={3}>
+            <ContentBox item xs={12} md={3}>
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                 <Grid container justify='space-around'>
                   <Field
@@ -105,7 +105,7 @@ export default function ReportFormBox({ cars, orders }) {
                 </Grid>
               </MuiPickersUtilsProvider>
             </ContentBox>
-            <ContentBox item xs={3}>
+            <ContentBox item xs={12} md={3}>
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                 <Grid container justify='space-around'>
                   <Field
@@ -116,7 +116,7 @@ export default function ReportFormBox({ cars, orders }) {
                 </Grid>
               </MuiPickersUtilsProvider>
             </ContentBox>
-            <ContentBox item xs={6}>
+            <ContentBox item xs={12} md={6}>
               <FormControl
                 error={Boolean(formik.touched.carId && formik.errors.carId)}>
                 <InputLabel id={`car-label`}>Выберите машину</InputLabel>
