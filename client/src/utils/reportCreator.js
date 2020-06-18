@@ -67,7 +67,7 @@ export const createReport = (data) => {
   );
   report.text(`Список использованных видов услуг:`, 15, row.next());
   data.tos.forEach((to) => {
-    report.text(`- ${to}`, 25, row.next());
+    to.forEach((t) => report.text(`- ${t}`, 25, row.next()));
   });
 
   report.save(`report_${dateName}.pdf`);
