@@ -11,6 +11,7 @@ const Card = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   height: '15vmin',
+  minHeight: '100px',
   backgroundColor: '#ececec',
   padding: '20px',
   borderRadius: '5px',
