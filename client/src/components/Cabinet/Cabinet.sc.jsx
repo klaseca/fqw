@@ -49,6 +49,7 @@ const CabinetBoxHeader = styled('div')({
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '3em',
+  textAlign: 'center',
 });
 
 const UnderHeaderLine = styled('div')({
