@@ -7,7 +7,7 @@ import { styled } from '@material-ui/core/styles';
 const Section = styled('section')({
   display: 'flex',
   flexDirection: 'column',
-  padding: '30px'
+  padding: '30px',
 });
 
 const Title = styled('div')({
@@ -15,7 +15,8 @@ const Title = styled('div')({
   justifyContent: 'center',
   alignItems: 'center',
   fontSize: '5em',
-  paddingBottom: '30px'
+  paddingBottom: '30px',
+  textAlign: 'center',
 });
 
 export default function WhyWe() {
