@@ -30,7 +30,11 @@ module.exports = {
         ordersCount: orders.length,
         servicesCount: orders.length,
         services: [
-          ...new Set(orders.map(({ orderServices }) => orderServices[0].title))
+          ...new Set(
+            orders.flatMap(({ orderServices }) =>
+              orderServices.map(os => os.title)
+            )
+          )
         ],
         tosCount: orders.reduce(
           (total, { orderServices }) =>
@@ -39,8 +43,8 @@ module.exports = {
         ),
         tos: [
           ...new Set(
-            orders.flatMap(
-              ({ orderServices }) => orderServices[0].typeOfService
+            orders.flatMap(({ orderServices }) =>
+              orderServices.map(os => os.typeOfService)
             )
           )
         ]
